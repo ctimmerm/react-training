@@ -11,4 +11,27 @@ Tasks:
 
  */
 
+class HelloWorld extends React.Component {
+  state = {
+    now: new Date()
+  };
+
+  componentDidMount() {
+    setInterval(() => {
+      this.setState({ now: new Date() });
+    }, 1000);
+  }
+
+  render() {
+    return (
+      <div>
+        Hello World, {this.props.name}.
+        It's {this.state.now.toLocaleString()} now.
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<HelloWorld name="Name" />, document.getElementById("root"));
+
 module.hot.accept();

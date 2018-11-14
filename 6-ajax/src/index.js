@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import axios from "axios";
 
 // TODO
 // 1. Install and import axios
@@ -10,8 +11,44 @@ import ReactDOM from "react-dom";
 //    response has been received yet. Use a state variable for this.
 
 class ServerRequest extends React.Component {
+  state = {
+    colors: [],
+    loading: false
+  };
+
+  componentDidMount() {
+    this.setState({ loading: true });
+    axios.get("/colors").then(response => {
+      this.setState({
+        colors: response.data.colors,
+        loading: false
+      });
+    });
+  }
+
   render() {
-    return <div>Nothing to see here yet</div>;
+    if (this.state.loading) {
+      return <div>Loading data...</div>;
+    }
+
+    return (
+      <>
+        {this.state.colors.map(color => (
+          <div
+            key={color.name + color.hex}
+            style={{
+              padding: 8,
+              fontSize: 28,
+              fontWeight: 700,
+              color: "#fff",
+              backgroundColor: color.hex
+            }}
+          >
+            {color.name}
+          </div>
+        ))}
+      </>
+    );
   }
 }
 
